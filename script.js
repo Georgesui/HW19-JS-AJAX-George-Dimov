@@ -77,11 +77,11 @@ class TodoList {
 		this.el.addEventListener('click', (event) => {
 			switch (event.target.dataset.action) {
 				case 'set-status': {
-					this.changeStatus(event.target.closest('li').dataset.action)
+					this.changeStatus(event.target.closest('li').dataset.id)
 					break;
 				}
 				case 'delete-task': {
-					this.deleteTodo(event.target.closest('li').dataset.action)
+					this.deleteTodo(event.target.closest('li').dataset.id)
 					break;
 				}
 				case 'create': {
@@ -143,10 +143,10 @@ class TodoList {
 
 	changeStatus(id) {
 		let index = this.todos.findIndex((el) => el.id === id);
-		this.todos[index].complited = !this.todos[index].complited;
+		this.todos[index].status = !this.todos[index].status;
 		createUpdatedTodos(`http://localhost:3000/todos/${this.todos[index].id}`, 'PATCH', JSON.stringify({
 				'value': this.todos[index].value,
-				'status': this.todos[index].complited ? true : false,
+				'status': this.todos[index].status ? true : false,
 				'id': this.todos[index].id
 			}))
 			.catch((error) => console.warn(error))
