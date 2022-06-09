@@ -1,24 +1,19 @@
 {
   "todos": [
     {
-      "id": 1,
       "value": "buy milk",
-      "status": true
+      "status": false,
+      "id": "2m2onuaiq"
     },
     {
       "value": "buy bread",
-      "status": false,
-      "id": 2
+      "status": true,
+      "id": "8sdik4awt"
     },
     {
       "value": "buy sugar",
       "status": false,
-      "id": 3
-    },
-    {
-      "value": "da",
-      "status": false,
-      "id": "yllwmj1vj"
+      "id": "8yyk3eoyd"
     }
   ]
 }
