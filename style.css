@@ -1,0 +1,27 @@
+.list>li .set-status {
+	margin: 10px;
+}
+
+.list>li:first-child .set-status {
+	margin-left: 27px;
+}
+
+.set-in-process {
+	background-color: yellow;
+	margin-bottom: 5px;
+	display: flex;
+	align-items: center;
+}
+
+.status-done {
+	background-color: green;
+	margin-bottom: 5px;
+}
+
+.list {
+	list-style: none;
+}
+
+button[data-action="move-up"] {
+	margin: 0 5px;
+}
