@@ -32,7 +32,7 @@ const createUpdatedTodos = function (url, type, data) {
 		xhr.onload = function () {
 			let status = xhr.status;
 
-			if (status === 200) {
+			if (status === 201) {
 				resolve(xhr.response);
 			} else {
 				reject(status)
@@ -77,11 +77,11 @@ class TodoList {
 		this.el.addEventListener('click', (event) => {
 			switch (event.target.dataset.action) {
 				case 'set-status': {
-					this.changeStatus(event.target.closest('li').dataset.id)
+					this.changeStatus(event.target.closest('li').dataset.action)
 					break;
 				}
 				case 'delete-task': {
-					this.deleteTodo(event.target.closest('li').dataset.id)
+					this.deleteTodo(event.target.closest('li').dataset.action)
 					break;
 				}
 				case 'create': {
@@ -142,11 +142,11 @@ class TodoList {
 	}
 
 	changeStatus(id) {
-		let index = this.todos.findIndex((el) => el.id);
+		let index = this.todos.findIndex((el) => el.id === id);
 		this.todos[index].complited = !this.todos[index].complited;
-		createUpdatedTodos(`http://localhost:3000/todos/${this.todos[index].id}`, 'PUT', JSON.stringify({
-				'task': this.todos.value,
-				'complited': this.todos[index].complited ? true : false,
+		createUpdatedTodos(`http://localhost:3000/todos/${this.todos[index].id}`, 'PATCH', JSON.stringify({
+				'value': this.todos[index].value,
+				'status': this.todos[index].complited ? true : false,
 				'id': this.todos[index].id
 			}))
 			.catch((error) => console.warn(error))
@@ -181,7 +181,7 @@ class TodoList {
 			}
 			let taskStatus = el.status ? 'status-done' : 'set-in-process';
 			lis +=
-				`<li data-id="${el.id}" class="${taskStatus}">${el.task}<button class="set-status" data-action="set-status">Change status</button><button class="delete-task" data-action="delete-task">Delete</button><button class="move-up" data-action="move-up">Move Up</button><button class="move-down" data-action="move-down">Move Down</button></li>`;
+				`<li data-id="${el.id}" class="${taskStatus}">${el.value}<button class="set-status" data-action="set-status">Change status</button><button class="delete-task" data-action="delete-task">Delete</button><button class="move-up" data-action="move-up">Move Up</button><button class="move-down" data-action="move-down">Move Down</button></li>`;
 		}
 		this.list.innerHTML = lis;
 	}

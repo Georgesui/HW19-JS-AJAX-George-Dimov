@@ -2,18 +2,23 @@
   "todos": [
     {
       "id": 1,
-      "task": "buy milk",
-      "complited": true
+      "value": "buy milk",
+      "status": true
     },
     {
-      "task": "buy bread",
-      "complited": false,
+      "value": "buy bread",
+      "status": false,
       "id": 2
     },
     {
-      "task": "buy sugar",
-      "complited": false,
+      "value": "buy sugar",
+      "status": false,
       "id": 3
+    },
+    {
+      "value": "da",
+      "status": false,
+      "id": "yllwmj1vj"
     }
   ]
 }
