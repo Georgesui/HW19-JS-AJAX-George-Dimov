@@ -198,5 +198,4 @@ class Task {
 let ourTodos = document.querySelector('.container');
 
 let todo1 = new TodoList(ourTodos);
-
-document.addEventListener('load', todo1.getTodoOnPage());
+todo1.getTodoOnPage();
