@@ -1,19 +1,19 @@
 {
-  "todos": [
-    {
-      "value": "buy milk",
-      "status": false,
-      "id": "2m2onuaiq"
-    },
-    {
-      "value": "buy bread",
-      "status": true,
-      "id": "8sdik4awt"
-    },
-    {
-      "value": "buy sugar",
-      "status": false,
-      "id": "8yyk3eoyd"
-    }
-  ]
-}
+	"todos": [
+	  {
+		 "id": 1,
+		 "task": "buy milk",
+		 "complited": true
+	  },
+	  {
+		 "task": "buy bread",
+		 "complited": false,
+		 "id": 2
+	  },
+	  {
+		 "task": "buy sugar",
+		 "complited": false,
+		 "id": 3
+	  }
+	]
+ }

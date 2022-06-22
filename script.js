@@ -21,7 +21,7 @@ const getTodos = function (url) {
 const createUpdatedTodos = function (url, type, data) {
 	return new Promise(function (resolve, reject) {
 		const xhr = new XMLHttpRequest();
-		xhr.open(type, url, true);
+		xhr.open(url, type, true);
 
 		xhr.setRequestHeader(
 			'Content-type', 'application/json; charset=utf-8'
@@ -45,7 +45,7 @@ const createUpdatedTodos = function (url, type, data) {
 	});
 };
 
-const removeTodos = function (id) {
+const removeTodos = function (url) {
 	return new Promise(function (resolve, reject) {
 		const xhr = new XMLHttpRequest();
 
@@ -108,7 +108,7 @@ class TodoList {
 	}
 
 	getTodoOnPage() {
-		getTodos(' http://localhost:3000/todos')
+		getTodos('http://localhost:3000/todos')
 			.then((element) => {
 				element.map((e) => {
 					this.todos.push(e);
@@ -119,22 +119,21 @@ class TodoList {
 	}
 
 	addTodo(todo) {
-		createUpdatedTodos('http://localhost:3000/todos', 'post', JSON.stringify(todo))
+		createUpdatedTodos('http://localhost:3000/todos', 'post', JSON.stringify({
+				'task': this.input.value,
+				'complited': false
+			}))
 			.catch((error) => console.warn(error))
 		this.todos.push(todo);
 		this.render(this.todos);
 	}
 
 	deleteTodo(id) {
-		let index = this.todos.findIndex((element) => element.id === id);
+		let index = this.todos.findIndex((element) => element.id == id);
 		removeTodos(`http://localhost:3000/todos/${this.todos[index].id}`)
 			.catch((error) => console.warn(error));
-		this.todos = this.todos.filter((el) => el.id !== id);
+		this.todos = this.todos.filter((e) => e.id !== id);
 		this.render(this.todos);
-	}
-
-	getTodos() {
-		return this.todos;
 	}
 
 	findTaskFromList(value) {
@@ -142,11 +141,11 @@ class TodoList {
 	}
 
 	changeStatus(id) {
-		let index = this.todos.findIndex((el) => el.id === id);
-		this.todos[index].status = !this.todos[index].status;
-		createUpdatedTodos(`http://localhost:3000/todos/${this.todos[index].id}`, 'PATCH', JSON.stringify({
-				'value': this.todos[index].value,
-				'status': this.todos[index].status ? true : false,
+		let index = this.todos.findIndex((element) => element.id == id);
+		this.todos[index].complited = !this.todos[index].complited;
+		createUpdatedTodos(`http://localhost:3000/todos/${this.todos[index].id}`, 'PUT', JSON.stringify({
+				'task': this.todos[index].task,
+				'complited': this.todos[index].complited ? true : false,
 				'id': this.todos[index].id
 			}))
 			.catch((error) => console.warn(error))
@@ -154,7 +153,7 @@ class TodoList {
 	}
 
 	moveUp(id) {
-		let index = this.todos.findIndex((el) => el.id === id);
+		let index = this.todos.findIndex((element) => element.id == id);
 		if (index !== 0) {
 			let el = this.todos[index];
 			this.todos[index] = this.todos[index - 1];
@@ -164,7 +163,7 @@ class TodoList {
 	}
 
 	moveDown(id) {
-		let index = this.todos.findIndex((el) => el.id === id);
+		let index = this.todos.findIndex((element) => element.id == id);
 		if (index < this.todos.length - 1) {
 			let el = this.todos[index];
 			this.todos[index] = this.todos[index + 1];
@@ -179,19 +178,17 @@ class TodoList {
 			if (!el) {
 				return;
 			}
-			let taskStatus = el.status ? 'status-done' : 'set-in-process';
+			let taskStatus = el.complited ? 'status-done' : 'set-in-process';
 			lis +=
-				`<li data-id="${el.id}" class="${taskStatus}">${el.value}<button class="set-status" data-action="set-status">Change status</button><button class="delete-task" data-action="delete-task">Delete</button><button class="move-up" data-action="move-up">Move Up</button><button class="move-down" data-action="move-down">Move Down</button></li>`;
+				`<li id="${el.id}" data-id="${el.id}" class="${taskStatus}">${el.task}<button class="set-status" data-action="set-status">Change status</button><button class="delete-task" data-action="delete-task">Delete</button><button class="move-up" data-action="move-up">Move Up</button><button class="move-down" data-action="move-down">Move Down</button></li>`;
 		}
 		this.list.innerHTML = lis;
 	}
 }
-
 class Task {
-	constructor(value, status) {
-		this.value = value;
-		this.status = status;
-		this.id = Math.random().toString(36).substr(2, 9);
+	constructor(task, complited) {
+		this.task = task;
+		this.complited = complited;
 	}
 }
 
