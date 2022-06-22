@@ -108,7 +108,8 @@ class TodoList {
 	}
 
 	getTodoOnPage() {
-		getTodos('http://localhost:3000/todos')
+		const url = 'http://localhost:3000/todos/';
+		getTodos(url)
 			.then((element) => {
 				element.map((e) => {
 					this.todos.push(e);
@@ -119,7 +120,8 @@ class TodoList {
 	}
 
 	addTodo(todo) {
-		createUpdatedTodos('http://localhost:3000/todos', 'post', JSON.stringify({
+		const url = 'http://localhost:3000/todos/';
+		createUpdatedTodos(url, 'post', JSON.stringify({
 				'task': this.input.value,
 				'complited': false
 			}))
